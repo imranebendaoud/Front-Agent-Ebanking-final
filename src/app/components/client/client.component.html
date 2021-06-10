@@ -1,0 +1,35 @@
+
+<div class=" content">
+    <div class=" row">
+      <div class=" col-md-12">
+        <div class=" card">
+          <div class=" card-header">
+            
+            <div *ngIf="alert;else false" class="alert alert-danger" role="alert">un champ est invalide, verifiez vos données !!</div>
+            <div *ngIf="alertEmail;else false" class="alert alert-danger" role="alert">Champ email invalide !!! , verifiez vos données !!</div>
+            <div *ngIf="alertTele;else false" class="alert alert-danger" role="alert">Champ téléphone invalide !!! , verifiez vos données !!</div>
+            <div *ngIf="alertTeleEmail;else false" class="alert alert-danger" role="alert">Champ téléphone et email invalide !!! , verifiez vos données !!</div>
+
+            <h4 class=" card-title"> My clients  <i class="fa fa-user-circle"></i></h4>
+          </div>
+          <div class=" card-body">
+            <ng2-smart-table 
+[settings]="settings"
+[source]="this.clients"
+(createConfirm)="onAddClient($event)"
+(editConfirm)="onUpdateClient($event)"
+(deleteConfirm)="onDeleteClient($event)"
+
+(custom)="onCustomAction($event)"
+> 
+</ng2-smart-table>
+
+
+
+<mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>     
+            

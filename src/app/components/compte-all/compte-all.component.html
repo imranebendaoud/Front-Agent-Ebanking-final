@@ -1,0 +1,42 @@
+
+<div class=" content">
+  <div class=" row">
+    <div class=" col-md-12">
+      <div class=" card">
+        <div class=" card-header">
+          <div *ngIf="alert;else false" class="alert alert-danger" role="alert">un champ est invalide, verifiez vos données !!</div>
+            <div *ngIf="alertSolde;else false" class="alert alert-danger" role="alert">Champ Solde invalide !!! , verifiez vos données !!</div>
+
+          <h4 class=" card-title"> My clients' accounts  <i class="fas fa-credit-card"></i></h4>
+        </div>
+        
+        <div class=" card-body">
+          Choose Client  
+          <select (change)="onChange($event.target['options'][$event.target['options'].selectedIndex].value.split(' ')[0])">
+            <option>All Accounts</option>
+            <option *ngFor="let compte of comptesAll" [ngValue]="compte.proprietaire" key>
+                {{compte.proprietaire.nom}} {{compte.proprietaire.prenom}} 
+        
+            </option>
+          </select>
+
+          <ng2-smart-table 
+          [settings]="settings" 
+          [source]="this.selectCompte"
+          (editConfirm)="onUpdateCompte($event)"
+          (deleteConfirm)="onDeleteCompte($event)"
+          >
+          </ng2-smart-table>
+          
+          <mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>  
+
+  
+
+

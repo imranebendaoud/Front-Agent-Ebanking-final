@@ -1,0 +1,31 @@
+
+     
+
+
+
+
+<div class=" content">
+    <div class=" row">
+      <div class=" col-md-12">
+        <div class=" card">
+          <div class=" card-header">
+            <div *ngIf="alert;else false" class="alert alert-danger" role="alert">un champ est invalide, verifiez vos données !!</div>
+            <div *ngIf="alertSolde;else false" class="alert alert-danger" role="alert">Champ Solde invalide !!! , verifiez vos données !!</div>
+
+            <h4 class=" card-title"> {{idCompte.nom}} {{idCompte.prenom}} Account  <i class="fas fa-credit-card"></i></h4>
+          </div>
+          <div class=" card-body">
+            <ng2-smart-table 
+[settings]="settings" 
+[source]="this.comptes"
+(createConfirm)="onAddCompte($event)"
+(editConfirm)="onUpdateCompte($event)"
+(deleteConfirm)="onDeleteCompte($event)"
+>
+</ng2-smart-table>
+
+<mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
+          </div>
+        </div>
+      </div>
+    </div>  

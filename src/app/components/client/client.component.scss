@@ -1,0 +1,47 @@
+
+
+    :host ng2-smart-table { 
+        font-size: 15px;
+        
+        ::ng-deep .table th.ng2-smart-actions {
+            width: 130px;
+        }
+        ::ng-deep .table th.ng2-smart-th.id {
+          width: 60px;
+          } 
+          ::ng-deep .table th.ng2-smart-th.prenom {
+            width: 110px;
+            }   
+            ::ng-deep .table th.ng2-smart-th.nom {
+              width: 110px;
+              }  
+              ::ng-deep .table th.ng2-smart-th.telephone {
+                width: 120px;
+                } 
+                ::ng-deep .table th.ng2-smart-th.cin {
+                  width: 110px;
+                  } 
+                  ::ng-deep .table th.ng2-smart-th.username {
+                    width: 120px;
+                    } 
+                    ::ng-deep .table th.ng2-smart-th.adresse {
+                      width: 170px;
+                      } 
+                      ::ng-deep .table th.ng2-smart-th.email {
+                        width: 140px;
+                        } 
+        }
+
+        mat-progress-spinner {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 5;
+      }
+
+
+
+
+        
+    
