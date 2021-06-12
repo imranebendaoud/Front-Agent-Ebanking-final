@@ -1,0 +1,121 @@
+  <div class=" content" id="main-container">
+    <div class=" row">
+      <div class=" col-md-12">
+        <div class=" card">
+          <div class=" card-header">
+            <h1>tous les rendez-vous</h1>
+          </div>
+          <div class=" card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">id </th>
+                  <th scope="col">motif</th>
+                  <th scope="col">date demande</th>
+                  <th scope="col">date rendez-vous</th>
+                  <th scope="col">status</th>
+                  <th scope="col">client</th>
+                  <th scope="col">Actions</th>
+          
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let appointment of appointments">
+                  <td>{{appointment.id}}</td>
+                  <td>{{appointment.motif}}</td>
+                  <td>{{appointment.dateDemande | date:'short' }}</td>
+                  <td>{{appointment.dateRdv | date:'short' }}</td>
+                  <td>{{appointment.status}}</td>
+                  <td>{{appointment.client.username}}</td>
+
+                  <td>
+                    <a (click)="onOpenModal(appointment, 'edit')" data-placement="top" data-original-title="Edit" style="cursor: pointer;"><i class="fas fa-edit"></i> </a>
+                    
+                    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Rendez-vous</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+
+
+                            <form #editForm="ngForm" >
+                              <div class="form-group">
+                                <label for="rdv">Appointment Date:</label>
+                                <input type="datetime-local" id="rdv" ngModel="{{editAppointment?.dateRdv}}" name="dateRdv">
+                              </div>
+                              <input id="id" type="hidden" ngModel="{{editAppointment?.id}}" name="id">
+                              <input type="hidden" id="motif" ngModel="{{editAppointment?.motif}}" name="motif">
+                              <input type="hidden" id="dateDemande" ngModel="{{editAppointment?.dateDemande}}" name="dateDemande">
+                              <input  type="hidden" id="client" ngModel="{{editAppointment?.client}}" name="client">
+                          
+                              <div class="form-group">
+                                <label for="status">Appointment Status:</label>
+                                <select ngModel="{{editAppointment?.status}}" name="status" id="status">
+                                  <option value="pending">Pending</option>
+                                  <option value="approved">Approved</option>
+                                  <option value="cancelled">Cancelled</option>
+                                </select>
+                              </div>
+                           
+                           
+                             </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button (click)="onUpdateAppointment(editForm.value)" data-dismiss="modal" class="btn btn-primary">Save</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+
+                    <a (click)="onOpenModal(appointment, 'delete')"  data-placement="top" data-original-title="Delete" style="cursor: pointer;"><i class="fas fa-trash-alt"></i> </a>
+                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete !</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+
+
+                            <form #deleteForm="ngForm" >
+                              <div class="form-group">
+                               <p>Do you want to delete this appointment ?</p>
+                              </div>
+                              <input id="id" type="hidden" ngModel="{{deleteAppointment?.id}}" name="id">
+                           
+                           
+                             </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button (click)="onDeleteAppointment(deleteForm.value)" data-dismiss="modal" class="btn btn-primary">Delete</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+          
+            
+          
+          
+                </tr>
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>     
+
+   

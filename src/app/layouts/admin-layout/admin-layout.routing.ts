@@ -11,9 +11,11 @@ import { ClientComponent } from "src/app/components/client/client.component";
 import { CompteComponent } from "src/app/components/compte/compte.component";
 import { CompteAllComponent } from "src/app/components/compte-all/compte-all.component";
 import { NotfoundComponent } from "src/app/components/notfound/notfound.component";
+import { AppointmentComponent } from "src/app/components/appointment/appointment.component";
 // import { RtlComponent } from "../../pages/rtl/rtl.component";
 
 export const AdminLayoutRoutes: Routes = [
+  { path: "appointments", component : AppointmentComponent },
   { path: "compte-all", component: CompteAllComponent },
   { path: "compte", component: CompteComponent },
   { path: "client", component: ClientComponent  },

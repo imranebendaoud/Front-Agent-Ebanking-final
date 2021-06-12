@@ -25,6 +25,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatCardModule } from "@angular/material/card";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { AppointmentComponent } from './appointment/appointment.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, NgbModule, Ng2SmartTableModule,
@@ -47,7 +48,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
     ReactiveFormsModule,
     MatToolbarModule,
     MatProgressSpinnerModule ],
-  declarations: [FooterComponent, NavbarComponent, SidebarComponent, ClientComponent, CompteComponent, CompteAllComponent, LoginComponent, NotfoundComponent],
+  declarations: [FooterComponent, NavbarComponent, SidebarComponent, ClientComponent, CompteComponent, CompteAllComponent, LoginComponent, NotfoundComponent, AppointmentComponent],
   exports: [FooterComponent, NavbarComponent, SidebarComponent]
 })
 export class ComponentsModule {}

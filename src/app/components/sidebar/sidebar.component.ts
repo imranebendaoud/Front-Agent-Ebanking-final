@@ -24,6 +24,13 @@ export const ROUTES: RouteInfo[] =
     icon: "icon-credit-card",
     class: ""
   },
+  {
+    path: "/appointments",
+    title: "Appointments",
+    rtlTitle: "لوحة القيادة",
+    icon: "icon-bell-55",
+    class: ""
+  },
   /*
   {
     path: "/dashboard",

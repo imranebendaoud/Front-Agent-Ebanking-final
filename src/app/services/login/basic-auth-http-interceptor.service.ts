@@ -15,7 +15,6 @@ export class BasicAuthHttpInterceptorService implements HttpInterceptor {
     if (
       sessionStorage.getItem('username') &&
       sessionStorage.getItem('basicauth')
-
     ) {
 
       req = req.clone({
