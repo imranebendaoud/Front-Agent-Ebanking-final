@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Compte } from 'src/app/modal/compte';
 import { CompteService } from 'src/app/services/compte/compte.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-compte',
@@ -72,24 +73,30 @@ export class CompteComponent implements OnInit {
   constructor(private router:Router,private compteService:CompteService, public loader:LoadingService) {  
       // console.log(this.router.getCurrentNavigation()?.extras.state);
       this.idCompte=this.router.getCurrentNavigation()?.extras.state;
+
+      
   }
 
   ngOnInit(): void {
-   
+    //this.idCompte=this.router.getCurrentNavigation()?.extras.state;
+    sessionStorage.setItem('compte',this.idCompte.id)
     console.log(this.idCompte);
     this.getComptes();
-
   }
 
 
   getComptes(){
-    this.compteService.getCompte(this.idCompte.id).subscribe(
+    this.compteService.getCompte(sessionStorage.getItem('compte')).subscribe(
       (response:Compte[]) => { 
         this.comptes = response;
         console.log(response)
       },
       (error:HttpErrorResponse) => {
-        console.log(error.message)
+        console.log(error)
+        if(error.error.status === 404){
+          this.comptes = [];
+
+        }
       }
     );
   }
@@ -97,7 +104,15 @@ export class CompteComponent implements OnInit {
   alert=false
   alertSolde=false
   onAddCompte(event: { newData: Compte; }) {
-    if(confirm('voulez vous ajouter ce compte ?')){
+    Swal.fire({
+      title: 'Do you want to add this account ?',
+     
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+    
+     
+    }).then((valeur)=>{
+      if(valeur.isConfirmed){
 
        if(event.newData.solde.toString()===""||event.newData.type===""){
         this.alert=true
@@ -121,7 +136,7 @@ export class CompteComponent implements OnInit {
       console.log(error);
       
       });
-  }}}
+  }}})}
 
   validateNumber(number) {
     const re = /^[0-9\b]+$/;
@@ -129,6 +144,15 @@ export class CompteComponent implements OnInit {
   }
 
   onUpdateCompte(event: { newData: Compte; }) {
+    Swal.fire({
+      title: 'Do you want to edit this account !!',
+     
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+    
+     
+    }).then((valeur)=>{
+      if(valeur.isConfirmed){
     if(event.newData.solde.toString()===""||event.newData.type===""){
       this.alert=true
     }
@@ -137,7 +161,6 @@ export class CompteComponent implements OnInit {
     }
     else{
 
-    if(confirm('Voulez vous editer ce compte')){
       this.compteService.updateCompteNew(event.newData).subscribe(
         res => {
           this.getComptes();
@@ -155,24 +178,40 @@ export class CompteComponent implements OnInit {
     } }
     
   
-  }
+  })}
 
 
 
   onDeleteCompte(event: { data: { id: number;proprietaire:string;numero:string; }; }) {
     console.log(event)
-    if(confirm('Voulez vous supprimer le compte Numero '+event.data.numero+' du client : '+this.idCompte.nom+' '+this.idCompte.prenom )){
-
-    this.compteService.deleteCompte(event.data.id).subscribe(
-      res => {
-        this.getComptes();
-      console.log(res); 
-     }, 
-     (error:HttpErrorResponse) => {
-      console.log(error);
-      
-      });
-    }
+    Swal.fire({
+      title: 'Do you want to delete number '+event.data.numero+' account of '+this.idCompte.nom+' '+this.idCompte.prenom+' client',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log('ok')
+        this.compteService.deleteCompte(event.data.id).subscribe(
+          res => {
+            this.getComptes();
+          console.log(res); 
+         }, 
+         (error:HttpErrorResponse) => {
+          console.log(error);
+          
+          });
+        Swal.fire(
+          'Deleted!',
+          'Your account has been deleted.',
+          'success'
+        )
+      }
+    })
+   
   }
 
 }

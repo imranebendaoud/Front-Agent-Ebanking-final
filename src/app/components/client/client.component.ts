@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Client } from 'src/app/modal/client';
 import { ClientService } from 'src/app/services/client/client.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-client',
@@ -133,94 +134,130 @@ export class ClientComponent implements OnInit {
   alertTeleEmail=false;
   onAddClient(event: { newData: Client; }) {
     console.log(event)
+    Swal.fire({
+      title: 'Do you want to add this client ?',
+     
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
     
-    if(confirm('voulez vous ajouter ce client ?')){
-    if(event.newData.adresse===""||event.newData.cin===""||event.newData.email===""||event.newData.nom===""||event.newData.password===""||event.newData.prenom===""||event.newData.telephone===""||event.newData.username===""){
-      this.alert = true;
-    }
-    else if(this.validateEmail(event.newData.email)===false){
-      this.alertEmail=true;
-    }
-    else if(this.validateNumber(event.newData.telephone)===false){
-      this.alertTele=true;
-    }
-    else if(this.validateNumber(event.newData.telephone)===false && this.validateNumber(event.newData.telephone)===false){
-      this.alertTeleEmail=true
-    }
-    else{
-      this.clientService.addClient(event.newData).subscribe(
-        res => {
+     
+    }).then((valeur)=>{
+      if(valeur.isConfirmed){
+
+      
+      if(event.newData.adresse===""||event.newData.cin===""||event.newData.email===""||event.newData.nom===""||event.newData.password===""||event.newData.prenom===""||event.newData.telephone===""||event.newData.username===""){
+        this.alert = true;
+      }
+      else if(this.validateEmail(event.newData.email)===false){
+        this.alertEmail=true;
+      }
+      else if(this.validateNumber(event.newData.telephone)===false){
+        this.alertTele=true;
+      }
+      else if(this.validateNumber(event.newData.telephone)===false && this.validateNumber(event.newData.telephone)===false){
+        this.alertTeleEmail=true
+      }
+      else{
+        this.clientService.addClient(event.newData).subscribe(
+          res => {
+    
+          this.getClients();
+          console.log(event)
+          this.alert = false;
+          this.alertEmail=false;
+          this.alertTele=false;
+          this.alertTeleEmail=false
+         }, 
+         (errorr:HttpErrorResponse) => {
+          console.log(errorr);
+          console.log(errorr.error.error)
   
-        this.getClients();
-        console.log(event)
-        this.alert = false;
-        this.alertEmail=false;
-        this.alertTele=false;
-        this.alertTeleEmail=false
-       }, 
-       (errorr:HttpErrorResponse) => {
-        console.log(errorr);
-        console.log(errorr.error.error)
-
-        if(errorr.error.status === 409){
-          alert('Conflict client déjà existant !!')
-
-        }
-        });
-
-    }
-    }
+          if(errorr.error.status === 409){
+            Swal.fire("Existing client error !!", "error !!", "error");
+           // alert('Conflict client déjà existant !!')
+  
+          }
+          });
+  
+      }}
+    })
+    // if(confirm('voulez vous ajouter ce client ?')){
+    // }
     
     
     
   }
 
   onUpdateClient(event: { newData: Client; }) {
-    if(event.newData.adresse===""||event.newData.cin===""||event.newData.email===""||event.newData.nom===""||event.newData.password===""||event.newData.prenom===""||event.newData.telephone===""||event.newData.username===""){
-      this.alert = true;
-    }
-    else if(this.validateEmail(event.newData.email)===false){
-      this.alertEmail=true;
-    }
-    else if(this.validateNumber(event.newData.telephone)===false){
-      this.alertTele=true
-    }
-    else if(confirm('Voulez vous editer le client : '+event.newData.nom+' '+event.newData.prenom)){
-      this.clientService.updateClient(event.newData).subscribe(
-        res => {
-        console.log(res); 
-        this.getClients();
-        this.alert = false;
-        this.alertEmail=false
-        this.alertTele=false
-       }, 
-       (error:HttpErrorResponse) => {
-        console.log(error);
-        
-        });
-    }
+   
+    Swal.fire({
+      title: 'Do you want to edit the client: '+event.newData.nom+' '+event.newData.prenom,
+     
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
     
+     
+    }).then((valeur)=>{
+      if(valeur.isConfirmed){
+        if(event.newData.adresse===""||event.newData.cin===""||event.newData.email===""||event.newData.nom===""||event.newData.password===""||event.newData.prenom===""||event.newData.telephone===""||event.newData.username===""){
+          this.alert = true;
+        }
+        else if(this.validateEmail(event.newData.email)===false){
+          this.alertEmail=true;
+        }
+        else if(this.validateNumber(event.newData.telephone)===false){
+          this.alertTele=true
+        }
+        else{
+          this.clientService.updateClient(event.newData).subscribe(
+            res => {
+            console.log(res); 
+            this.getClients();
+            this.alert = false;
+            this.alertEmail=false
+            this.alertTele=false
+           }, 
+           (error:HttpErrorResponse) => {
+            console.log(error);
+            
+            });
+        }
+    
+    
+    }
   
-  }
+  
+  })}
 
   onDeleteClient(event: { data: { id: number;nom:string;prenom:string }; }) {
-    if(confirm('Voulez vous supprimer le client '+event.data.nom+' '+event.data.prenom+' ?')){
-      console.log('ok')
-      this.clientService.deleteClient(event.data.id).subscribe(
-        res => {
-        console.log(res); 
-        this.getClients();
-       }, 
-       (error:HttpErrorResponse) => {
-        console.log(error);
-        
-        });
-    }
-   
+    Swal.fire({
+      title: 'Do you want to delete the client: '+event.data.nom+' '+event.data.prenom+' ?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log('ok')
+        this.clientService.deleteClient(event.data.id).subscribe(
+          res => {
+          console.log(res); 
+          this.getClients();
+         }, 
+         (error:HttpErrorResponse) => {
+          console.log(error);
+          
+          });
+        Swal.fire(
+          'Deleted!',
+          'Your client has been deleted.',
+          'success'
+        )
+      }
+    })
     
-    
-    
-  
   }
 
   onUserRowSelect(event: any): void {

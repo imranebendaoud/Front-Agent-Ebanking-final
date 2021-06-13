@@ -5,6 +5,7 @@ import { Client } from 'src/app/modal/client';
 import { Compte } from 'src/app/modal/compte';
 import { CompteService } from 'src/app/services/compte/compte.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-compte-all',
@@ -145,11 +146,20 @@ export class CompteAllComponent implements OnInit {
   alert=false
   alertSolde=false
   onUpdateCompte(event: { newData: Compte; }) {
+    Swal.fire({
+      title: 'Do you want to edit this account !!',
+     
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+    
+     
+    }).then((valeur)=>{
+      if(valeur.isConfirmed){
     if(event.newData.solde.toString()===""||event.newData.type===""){
       this.alert=true
     }
-    else if(confirm('Voulez vous editer ce compte')){
-      if(this.validateNumber(event.newData.solde)===false){
+    
+    else if(this.validateNumber(event.newData.solde)===false){
         this.alertSolde=true
       }
       else{
@@ -166,7 +176,9 @@ export class CompteAllComponent implements OnInit {
         console.log(error);
         
         });
-    }}
+    }
+  }
+})
     
   
   }
@@ -177,18 +189,36 @@ export class CompteAllComponent implements OnInit {
 
   onDeleteCompte(event: { data: { id: number;proprietaire;numero:string; }; }) {
     console.log(event)
-    if(confirm('Voulez vous supprimer le compte Numero '+event.data.numero+' du client : '+event.data.proprietaire.nom+' '+event.data.proprietaire.prenom  )){
-
-    this.compteService.deleteCompte(event.data.id).subscribe(
-      res => {
-      console.log(res); 
-      this.getAllComptes();
-     }, 
-     (error:HttpErrorResponse) => {
-      console.log(error);
-      
-      });
-    }
+    Swal.fire({
+      title: 'Do you want to delete number '+event.data.numero+' account of '+event.data.proprietaire.nom+' '+event.data.proprietaire.prenom+' client',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log('ok')
+        this.compteService.deleteCompte(event.data.id).subscribe(
+          res => {
+          console.log(res); 
+          this.getAllComptes();
+         }, 
+         (error:HttpErrorResponse) => {
+          console.log(error);
+          
+          });
+        Swal.fire(
+          'Deleted!',
+          'Your account has been deleted.',
+          'success'
+        )
+      }
+    })
+   
+  
+   
   }
 
 }
