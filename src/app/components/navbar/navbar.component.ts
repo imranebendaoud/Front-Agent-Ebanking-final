@@ -195,6 +195,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
   logOut() {
     sessionStorage.removeItem('username');
+    sessionStorage.clear()
     console.log("loggeed out")
   }
 }

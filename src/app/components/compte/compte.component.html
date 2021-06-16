@@ -9,10 +9,10 @@
       <div class=" col-md-12">
         <div class=" card">
           <div class=" card-header">
-            <div *ngIf="alert;else false" class="alert alert-danger" role="alert">un champ est invalide, verifiez vos données !!</div>
-            <div *ngIf="alertSolde;else false" class="alert alert-danger" role="alert">Champ Solde invalide !!! , verifiez vos données !!</div>
+            <div *ngIf="alert;else false" class="alert alert-danger" role="alert">Invalid, check your fields !!</div>
+            <div *ngIf="alertSolde;else false" class="alert alert-danger" role="alert">Balance field invalide !!</div>
 
-            <h4 class=" card-title"> {{idCompte.nom}} {{idCompte.prenom}} Account  <i class="fas fa-credit-card"></i></h4>
+            <h4 class=" card-title"> {{sessionNomCompte}} {{sessionPrenomCompte}} Account  <i class="fas fa-credit-card"></i></h4>
           </div>
           <div class=" card-body">
             <ng2-smart-table 
@@ -21,6 +21,8 @@
 (createConfirm)="onAddCompte($event)"
 (editConfirm)="onUpdateCompte($event)"
 (deleteConfirm)="onDeleteCompte($event)"
+(custom)="onEditSolde($event)"
+
 >
 </ng2-smart-table>
 

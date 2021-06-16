@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Compte } from 'src/app/modal/compte';
 import { CompteService } from 'src/app/services/compte/compte.service';
@@ -35,6 +35,17 @@ export class CompteComponent implements OnInit {
     attr: {
       class: 'table'
     },
+    actions: {
+      custom: [
+        {
+          name: 'Add Solde',
+          title: 'Add Balance <i class="fas fa-credit-card"></i><br>'
+          
+        }
+       
+      ],
+      
+    },
     columns: {
       id: {
         title: 'ID',
@@ -67,22 +78,23 @@ export class CompteComponent implements OnInit {
   
   comptes:Compte[]=[];
   idCompte: any;
-
+  sessionNomCompte=sessionStorage.getItem('compteNom')
+  sessionPrenomCompte=sessionStorage.getItem('comptePrenom')
   loading$ = this.loader.loading$;
 
   constructor(private router:Router,private compteService:CompteService, public loader:LoadingService) {  
-      // console.log(this.router.getCurrentNavigation()?.extras.state);
-      this.idCompte=this.router.getCurrentNavigation()?.extras.state;
-
-      
+      this.idCompte=this.router.getCurrentNavigation()?.extras.state;    
+      console.log(sessionStorage.getItem('compte'));
   }
+  
+  
 
   ngOnInit(): void {
     //this.idCompte=this.router.getCurrentNavigation()?.extras.state;
-    sessionStorage.setItem('compte',this.idCompte.id)
-    console.log(this.idCompte);
     this.getComptes();
   }
+
+  
 
 
   getComptes(){
@@ -213,5 +225,42 @@ export class CompteComponent implements OnInit {
     })
    
   }
+
+
+  onEditSolde(event){
+    console.log(event)
+    Swal.fire({
+      title: 'Add Balance',
+      input: 'text',
+      inputAttributes: {
+        pattern: '^[0-9]*$'
+     
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Save',
+    
+     
+    }).then((valeur) => {
+      if(valeur.isConfirmed){
+
+      
+    console.log(valeur)
+    event.data.solde += parseFloat(valeur.value);
+    console.log(event.data.solde)
+    this.compteService.updateSolde(event.data.id,event.data).subscribe(
+      response => {
+        this.getComptes();
+        console.log(response)
+      },
+      (error:HttpErrorResponse) => {
+        console.log(error)
+      }
+    )
+  
+}})
+
+
+  }
+
 
 }

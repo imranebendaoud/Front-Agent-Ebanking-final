@@ -20,10 +20,6 @@ export class CompteAllComponent implements OnInit {
       display: true,
       perPage: 12,
     },
-    actions: {
-      add: false,
-     
-      },
     add: {
       createButtonContent: '<i class="fa fa-plus-circle" aria-hidden="true"></i>',
       cancelButtonContent: '<i class="fa fa-times-circle" aria-hidden="true"></i>',
@@ -42,6 +38,18 @@ export class CompteAllComponent implements OnInit {
 
     attr: {
       class: 'table'
+    },
+    actions: {
+      add: false,
+      custom: [
+        {
+          name: 'Add Solde',
+          title: 'Add Balance <i class="fas fa-credit-card"></i><br>'
+          
+        }
+       
+      ],
+      
     },
     columns: {
       id: {
@@ -220,5 +228,41 @@ export class CompteAllComponent implements OnInit {
   
    
   }
+
+  onEditSolde(event){
+    console.log(event)
+    Swal.fire({
+      title: 'Add Balance',
+      input: 'text',
+      inputAttributes: {
+        pattern: '^[0-9]*$'
+     
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Save',
+    
+     
+    }).then((valeur) => {
+      if(valeur.isConfirmed){
+
+      
+    console.log(valeur)
+    event.data.solde += parseFloat(valeur.value);
+    console.log(event.data.solde)
+    this.compteService.updateSolde(event.data.id,event.data).subscribe(
+      response => {
+        this.getAllComptes();
+        console.log(response)
+      },
+      (error:HttpErrorResponse) => {
+        console.log(error)
+      }
+    )
+  
+}})
+
+
+  }
+
 
 }

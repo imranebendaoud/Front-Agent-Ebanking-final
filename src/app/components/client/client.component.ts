@@ -77,7 +77,7 @@ export class ClientComponent implements OnInit {
       custom: [
         {
           name: 'Add Account',
-          title: 'Add Account <i class="fa fa-plus-circle" aria-hidden="true"></i><br>'
+          title: 'Add <i class="fas fa-credit-card"></i><br>'
           
         }
        
@@ -98,8 +98,8 @@ export class ClientComponent implements OnInit {
    }
 
   ngOnInit(): void {
+   // localStorage.removeItem('compte')
     this.getClients();
-
   }
 
   validateEmail(email) {
@@ -259,18 +259,23 @@ export class ClientComponent implements OnInit {
     })
     
   }
-
+  
   onUserRowSelect(event: any): void {
     console.log(event);
     console.log('row selected: '+event.data.id);
     this.router.navigate(['/compte'],{ state: event.data });
+    
 }
 
 onCustomAction(event:any):void{
   console.log(event);
   console.log('row selected: '+event.data.id);
   this.router.navigate(['/compte'],{ state: event.data });
-  
+  sessionStorage.setItem('compte',event.data.id)
+  sessionStorage.setItem('compteNom',event.data.nom)
+  sessionStorage.setItem('comptePrenom',event.data.prenom)
+
+
 }
 
 }

@@ -14,7 +14,7 @@ export class CompteService {
 
   public getCompte(id:string):Observable<Compte[]>{
     let username = sessionStorage.getItem('username');
-    let password = sessionStorage.getItem('password');
+    let password = atob(sessionStorage.getItem('password'));
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
@@ -24,7 +24,7 @@ export class CompteService {
 
   public getAllCompte():Observable<Compte[]>{
     let username = sessionStorage.getItem('username');
-    let password = sessionStorage.getItem('password');
+    let password = atob(sessionStorage.getItem('password'));
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
@@ -34,7 +34,7 @@ export class CompteService {
 
   public getAllCompteByProp(prop):Observable<Compte[]>{
     let username = sessionStorage.getItem('username');
-    let password = sessionStorage.getItem('password');
+    let password = atob(sessionStorage.getItem('password'));
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
@@ -44,7 +44,7 @@ export class CompteService {
 
   public addCompte(Compte:Compte):Observable<Compte>{
     let username = sessionStorage.getItem('username');
-    let password = sessionStorage.getItem('password');
+    let password = atob(sessionStorage.getItem('password'));
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
@@ -55,7 +55,7 @@ export class CompteService {
 
   public updateCompte(id:number,Compte:Compte):Observable<Compte>{
     let username = sessionStorage.getItem('username');
-    let password = sessionStorage.getItem('password');
+    let password = atob(sessionStorage.getItem('password'));
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
@@ -65,7 +65,7 @@ export class CompteService {
 
   public updateCompteNew(Compte:Compte):Observable<Compte>{
     let username = sessionStorage.getItem('username');
-    let password = sessionStorage.getItem('password');
+    let password = atob(sessionStorage.getItem('password'));
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
@@ -75,11 +75,21 @@ export class CompteService {
 
   public deleteCompte(id:number):Observable<void>{
     let username = sessionStorage.getItem('username');
-    let password = sessionStorage.getItem('password');
+    let password = atob(sessionStorage.getItem('password'));
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
     return this.http.delete<void>(`${this.backUrl}/compte/${id}`,{headers});
+
+  }
+
+  public updateSolde(id:number,compte:Compte):Observable<Compte>{
+    let username = sessionStorage.getItem('username');
+    let password = atob(sessionStorage.getItem('password'));
+    const headers = new HttpHeaders({
+      Authorization: 'Basic ' + btoa(username + ':' + password),
+    });
+    return this.http.put<Compte>(`${this.backUrl}/compte/${id}`,compte,{headers});
 
   }
  
