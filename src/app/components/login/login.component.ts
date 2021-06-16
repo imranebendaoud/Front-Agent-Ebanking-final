@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
         (data) => {
           this.loginInvalid = false;
           this.router.navigate(['/client']);
-          sessionStorage.setItem('password',this.password.value);
+          sessionStorage.setItem('password',btoa(this.password.value));
         },
         (error) => {
           this.loginInvalid = true;

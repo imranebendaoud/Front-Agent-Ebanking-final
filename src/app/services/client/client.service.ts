@@ -26,7 +26,7 @@ export class ClientService {
 
   public getClient():Observable<Client[]>{
     let username = sessionStorage.getItem('username');
-    let password = sessionStorage.getItem('password');
+    let password = atob(sessionStorage.getItem('password'));
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
@@ -39,7 +39,7 @@ export class ClientService {
 
   public addClient(client:Client):Observable<Client>{
     let username = sessionStorage.getItem('username');
-    let password = sessionStorage.getItem('password');
+    let password = atob(sessionStorage.getItem('password'));
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
@@ -49,7 +49,7 @@ export class ClientService {
 
   public updateClient(Client:Client):Observable<Client>{
     let username = sessionStorage.getItem('username');
-    let password = sessionStorage.getItem('password');
+    let password = atob(sessionStorage.getItem('password'));
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
@@ -59,7 +59,7 @@ export class ClientService {
 
   public deleteClient(id:number):Observable<void>{
     let username = sessionStorage.getItem('username');
-    let password = sessionStorage.getItem('password');
+    let password = atob(sessionStorage.getItem('password'));
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
