@@ -16,6 +16,7 @@
                   <th scope="col">status</th>
                   <th scope="col">client</th>
                   <th scope="col">Actions</th>
+            
           
                 </tr>
               </thead>
@@ -27,6 +28,8 @@
                   <td>{{appointment.dateRdv | date:'short' }}</td>
                   <td>{{appointment.status}}</td>
                   <td>{{appointment.client.username}}</td>
+                
+
 
                   <td>
                     <a (click)="onOpenModal(appointment, 'edit')" data-placement="top" data-original-title="Edit" style="cursor: pointer;"><i class="fas fa-edit"></i> </a>
@@ -52,7 +55,8 @@
                               <input type="hidden" id="motif" ngModel="{{editAppointment?.motif}}" name="motif">
                               <input type="hidden" id="dateDemande" ngModel="{{editAppointment?.dateDemande}}" name="dateDemande">
                               <input  type="hidden" id="client" ngModel="{{editAppointment?.client}}" name="client">
-                          
+                              <input  type="hidden" id="agent" ngModel="{{editAppointment?.agent}}" name="agent">
+
                               <div class="form-group">
                                 <label for="status">Appointment Status:</label>
                                 <select ngModel="{{editAppointment?.status}}" name="status" id="status">

@@ -13,16 +13,6 @@ export class AppointmentsService {
   constructor(private http: HttpClient) {
    }
 
- 
-  public GetAllAppointments(): Observable<Appointment[]> {
-    let username = sessionStorage.getItem('username');
-    let password = sessionStorage.getItem('password');
-    const headers = new HttpHeaders({
-      Authorization: 'Basic ' + btoa(username + ':' + password),
-    });
-    return this.http.get<Appointment[]>('http://localhost:8081/appointments',{headers});
-
-  }
   public updateAppointment(appointment:Appointment):Observable<Appointment>{
     let username = sessionStorage.getItem('username');
     let password = sessionStorage.getItem('password');

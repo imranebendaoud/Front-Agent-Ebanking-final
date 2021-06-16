@@ -21,7 +21,7 @@ export class AuthentificationService {
         map((userData) => {
           //console.log(userData)
           sessionStorage.setItem('username', username);
-        
+          sessionStorage.setItem('currentAgentId', userData.id.toString());
           console.log("is logged"+this.isUserLoggedIn())
           return userData;
           

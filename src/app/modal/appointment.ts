@@ -1,3 +1,4 @@
+import { Agent } from "./agent";
 import { Client } from "./client";
 
 export interface Appointment {
@@ -7,5 +8,6 @@ export interface Appointment {
     status:String
     dateRdv:Date
     dateDemande:Date
+    agent:Agent
 
 }

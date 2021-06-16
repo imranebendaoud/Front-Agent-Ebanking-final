@@ -1,3 +1,5 @@
+import { Appointment } from "./appointment";
+
 export interface Agent {
     id: number;
   nom: string;
@@ -8,4 +10,5 @@ export interface Agent {
   email: string;
   username: string;
   password: string;
+  appointment:Appointment
 }

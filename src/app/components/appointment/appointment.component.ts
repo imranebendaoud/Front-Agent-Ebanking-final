@@ -1,9 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Appointment } from 'src/app/modal/appointment';
-import { Client } from 'src/app/modal/client';
 import { AppointmentsService } from 'src/app/services/appointment/appointments.service';
+import { ClientService } from 'src/app/services/client/client.service';
 
 @Component({
   selector: 'app-appointment',
@@ -14,26 +13,22 @@ export class AppointmentComponent implements OnInit {
   appointments : Appointment[]=[];
   editAppointment :Appointment;
   deleteAppointment :Appointment;
+  agentId:string=sessionStorage.getItem('currentAgentId')
 
-  client:Client
-
-  constructor(private appointmentService:AppointmentsService) { }
+  constructor(private appointmentService:AppointmentsService,private clientService:ClientService) { }
 
   ngOnInit(): void {
     this.getAppointments()
   }
+
   getAppointments(){
-    this.appointmentService.GetAllAppointments().subscribe(
-      (response:Appointment[]) => { 
-        
-        this.appointments = response;
-        console.log(response)
-        
+    this.clientService.findAgentAppointments(this.agentId).subscribe(
+      (response : Appointment[])=>{
+        this.appointments=response;
       },
       (error:HttpErrorResponse) => {
-        console.log(error.message)
-        
-
+        alert(error.message);
+        console.log(error.message);
       }
     );
   }
@@ -58,8 +53,9 @@ export class AppointmentComponent implements OnInit {
     button.click();
   }
   public onUpdateAppointment(appointment: any): void{
-    this.client=this.editAppointment.client
-    appointment.client=this.client
+    appointment.client=this.editAppointment.client
+    appointment.agent=this.editAppointment.agent
+
     this.appointmentService.updateAppointment(appointment).subscribe(
       (response:Appointment)=> {
         console.log("response edit :" +response)

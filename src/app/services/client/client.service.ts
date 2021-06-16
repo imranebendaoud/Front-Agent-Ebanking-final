@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Appointment } from 'src/app/modal/appointment';
 import { Client } from 'src/app/modal/client';
 import { environment } from 'src/environments/environment';
 
@@ -8,7 +9,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ClientService {
-  
+  AgentId:string=sessionStorage.getItem('currentAgentId')
+
   private backUrl = environment.backUrl;
   httpOptionsPlain = {
     headers: new HttpHeaders({
@@ -64,6 +66,15 @@ export class ClientService {
     return this.http.delete<void>(`${this.backUrl}/client/${id}`,{headers});
 
   }
+  public findAgentAppointments(id: string): Observable<Appointment[]> {
+    let username = sessionStorage.getItem('username');
+    let password = sessionStorage.getItem('password');
+    const headers = new HttpHeaders({
+      Authorization: 'Basic ' + btoa(username + ':' + password),
+    });
+    return this.http.get<Appointment[]>(`${this.backUrl}` + '/agent/' + id + '/appointments',{headers});
+  }
+
 
  
 }
