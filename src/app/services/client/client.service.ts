@@ -67,12 +67,8 @@ export class ClientService {
 
   }
   public findAgentAppointments(id: string): Observable<Appointment[]> {
-    let username = sessionStorage.getItem('username');
-    let password = sessionStorage.getItem('password');
-    const headers = new HttpHeaders({
-      Authorization: 'Basic ' + btoa(username + ':' + password),
-    });
-    return this.http.get<Appointment[]>(`${this.backUrl}` + '/agent/' + id + '/appointments',{headers});
+   
+    return this.http.get<Appointment[]>(`${this.backUrl}/agent/${id}/appointments`);
   }
 
 

@@ -27,7 +27,7 @@ export class AppointmentComponent implements OnInit {
         this.appointments=response;
       },
       (error:HttpErrorResponse) => {
-        console.log(error.message);
+        console.log(error);
       }
     );
   }
