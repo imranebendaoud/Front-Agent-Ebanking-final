@@ -123,7 +123,10 @@ export class ClientComponent implements OnInit {
       },
       (error:HttpErrorResponse) => {
         console.log(error.message)
-        
+        if(error.error.status === 404){
+          this.clients = [];
+
+        }
 
       }
     );
