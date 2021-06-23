@@ -22,13 +22,13 @@ export class CompteService {
 
   }
 
-  public getAllCompte():Observable<Compte[]>{
+  public getAllCompteOfAgent(agent:string):Observable<Compte[]>{
     let username = sessionStorage.getItem('username');
     let password = atob(sessionStorage.getItem('password'));
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
-    return this.http.get<Compte[]>(`${this.backUrl}/comptes/all`,{headers});
+    return this.http.get<Compte[]>(`${this.backUrl}/compte/agent/${agent}`,{headers});
 
   }
 

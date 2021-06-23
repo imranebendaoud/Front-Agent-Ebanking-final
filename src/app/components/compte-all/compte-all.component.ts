@@ -111,8 +111,8 @@ export class CompteAllComponent implements OnInit {
 
 
   getAllComptes(){
-    this.compteService.getAllCompte().subscribe(
-      (response:Compte[]) => { 
+    this.compteService.getAllCompteOfAgent(sessionStorage.getItem('username')).subscribe(
+      (response:Compte[]) => {
         this.comptesAll = response;
         this.selectCompte = response;
         console.log(response)
