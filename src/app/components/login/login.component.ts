@@ -10,18 +10,13 @@ import { AuthentificationService } from 'src/app/services/login/authentification
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  
-  form!: FormGroup;
-  loginInvalid = false;
-  hide:any;
- 
-  loading$ = this.loader.loading$;
+  form: FormGroup;
+  loginInvalid: boolean;
 
   constructor(
     private router: Router,
-    private loginservice: AuthentificationService,
-    public loader:LoadingService
-  ) {}
+    private loginservice : AuthentificationService
+  ) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -36,24 +31,19 @@ export class LoginComponent implements OnInit {
     return this.form.get('password');
   }
 
-  Login() {
-
+  checkLogin() {
+    console.log(this.username.value);
     this.loginservice
       .authentificate(this.username.value, this.password.value)
       .subscribe(
         (data) => {
           this.loginInvalid = false;
-          this.router.navigate(['/client']);
-          sessionStorage.setItem('password',btoa(this.password.value));
+          this.router.navigate(['/overview']);
         },
         (error) => {
           this.loginInvalid = true;
-          console.log('errr')
         }
       );
   }
-  logOut() {
-    sessionStorage.removeItem('username');
-    console.log("loggeed out")
-  }
+
 }
