@@ -1,6 +1,7 @@
 import { Appointment } from "./appointment";
 
 export interface Agent {
+  
     id: number;
   nom: string;
   prenom: string;

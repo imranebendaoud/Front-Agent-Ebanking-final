@@ -20,7 +20,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "compte", component: CompteComponent },
   { path: "client", component: ClientComponent  },
   
-
+  
   // { path: "dashboard", component: DashboardComponent },
   // { path: "icons", component: IconsComponent },
   // { path: "maps", component: MapComponent },

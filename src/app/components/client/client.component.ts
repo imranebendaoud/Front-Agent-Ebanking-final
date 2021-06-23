@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { Agent } from 'src/app/modal/agent';
 import { Client } from 'src/app/modal/client';
 import { ClientService } from 'src/app/services/client/client.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
@@ -100,6 +101,7 @@ export class ClientComponent implements OnInit {
   ngOnInit(): void {
    // localStorage.removeItem('compte')
     this.getClients();
+
   }
 
   validateEmail(email) {
@@ -112,24 +114,42 @@ export class ClientComponent implements OnInit {
     return re.test(String(number));
   }
 
+
+  findAgentid:number
   
+
   getClients(){
-    this.clientService.getClient().subscribe(
-      (response:Client[]) => { 
-        
-        this.clients = response;
+    console.log(sessionStorage.getItem('username'))
+    this.clientService.findAgentByUsername(sessionStorage.getItem('username')).subscribe(
+      (response:any) => {
+        var id = response.agence.id;
+        this.findAgentid = id;
+        console.log(this.findAgentid)
         console.log(response)
-        console.log('dfzedfvzefzef')
+        this.clientService.getClient(this.findAgentid).subscribe(
+          (responsee:Client[]) => { 
+            
+            this.clients = responsee;
+            console.log(responsee) 
+            console.log('dfzedfvzefzef')
+          },
+          (error:HttpErrorResponse) => {
+            console.log(error.message)
+            if(error.error.status === 404){
+              this.clients = [];
+    
+            }
+    
+          }
+        );
       },
       (error:HttpErrorResponse) => {
-        console.log(error.message)
-        if(error.error.status === 404){
-          this.clients = [];
-
-        }
+        console.log(error)
+       
 
       }
-    );
+    );    
+    
   }
   alert=false;
   alertEmail=false;
@@ -144,7 +164,7 @@ export class ClientComponent implements OnInit {
       confirmButtonText: 'Yes',
     
      
-    }).then((valeur)=>{
+    }).then((valeur)=>{ 
       if(valeur.isConfirmed){
 
       
