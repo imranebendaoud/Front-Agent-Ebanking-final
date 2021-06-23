@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Agent } from 'src/app/modal/agent';
 import { Appointment } from 'src/app/modal/appointment';
 import { Client } from 'src/app/modal/client';
 import { environment } from 'src/environments/environment';
@@ -24,18 +25,26 @@ export class ClientService {
 
   }
 
-  public getClient():Observable<Client[]>{
+  public getClient(id:number):Observable<Client[]>{
     let username = sessionStorage.getItem('username');
     let password = atob(sessionStorage.getItem('password'));
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
 
-    return this.http.get<Client[]>(`${this.backUrl}/clients`,{headers});
+    return this.http.get<Client[]>(`${this.backUrl}/agence/${id}/clients`,{headers});
 
   }
 
- 
+  public findAgentByUsername(usernameClient:string):Observable<Agent>{
+    let username = sessionStorage.getItem('username');
+    let password = atob(sessionStorage.getItem('password'));
+    const headers = new HttpHeaders({
+      Authorization: 'Basic ' + btoa(username + ':' + password),
+    });
+    return this.http.get<Agent>(`${this.backUrl}/agent/username/${usernameClient}`,{headers});
+
+  }
 
   public addClient(client:Client):Observable<Client>{
     let username = sessionStorage.getItem('username');
