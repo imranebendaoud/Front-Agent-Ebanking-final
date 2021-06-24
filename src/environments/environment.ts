@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  backUrl : 'http://localhost:8091'
+  backUrl : 'https://ebanking-app.herokuapp.com'
 };
 
 /*

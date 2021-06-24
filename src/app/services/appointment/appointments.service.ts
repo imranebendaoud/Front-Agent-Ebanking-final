@@ -19,7 +19,7 @@ export class AppointmentsService {
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
-    return this.http.get<Appointment[]>('http://localhost:8091/appointments',{headers});
+    return this.http.get<Appointment[]>('https://ebanking-app.herokuapp.com/appointments',{headers});
 
   }
   public updateAppointment(appointment:Appointment):Observable<Appointment>{
@@ -28,7 +28,7 @@ export class AppointmentsService {
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
-    return this.http.put<Appointment>((`http://localhost:8091/appointment/${appointment.id}`),appointment,{headers});
+    return this.http.put<Appointment>((`https://ebanking-app.herokuapp.com/appointment/${appointment.id}`),appointment,{headers});
 
   }
   public deleteAppointment(id:number):Observable<void>{
@@ -37,7 +37,7 @@ export class AppointmentsService {
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(username + ':' + password),
     });
-    return this.http.delete<void>(`http://localhost:8091/appointment/${id}`,{headers});
+    return this.http.delete<void>(`https://ebanking-app.herokuapp.com/appointment/${id}`,{headers});
 
   }
 }

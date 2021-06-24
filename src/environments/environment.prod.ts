@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  backUrl : 'https://ebanking-app.herokuapp.com'
+
 };
